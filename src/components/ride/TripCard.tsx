@@ -140,8 +140,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tripDate: {
-    fontSize: 14,
-    color: colors.dark,
+    color: colors.darkColor,
     marginRight: spacing.sm,
     ...typography.caption,
   },
@@ -149,8 +148,6 @@ const styles = StyleSheet.create({
     // Additional styles if needed
   },
   tripFare: {
-    fontSize: 18,
-    fontWeight: 'bold',
     color: colors.primary,
     ...typography.heading2,
   },
@@ -169,8 +166,7 @@ const styles = StyleSheet.create({
     marginRight: spacing.sm,
   },
   locationText: {
-    fontSize: 14,
-    color: colors.dark,
+    color: colors.darkColor,
     flex: 1,
     ...typography.caption,
   },
@@ -180,14 +176,12 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   driverLabel: {
-    fontSize: 14,
     color: colors.gray,
     marginRight: spacing.sm,
     ...typography.caption,
   },
   driverName: {
-    fontSize: 14,
-    color: colors.dark,
+    color: colors.darkColor,
     marginRight: spacing.sm,
     ...typography.caption,
   },
@@ -196,8 +190,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rating: {
-    fontSize: 12,
-    color: colors.dark,
+    color: colors.darkColor,
     marginLeft: spacing.sm,
     ...typography.caption,
   },
@@ -207,7 +200,6 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   ratingLabel: {
-    fontSize: 14,
     color: colors.gray,
     marginRight: spacing.sm,
     ...typography.caption,
@@ -225,7 +217,6 @@ const styles = StyleSheet.create({
     borderTopColor: colors.lightGray,
   },
   tripId: {
-    fontSize: 12,
     color: colors.gray,
     ...typography.caption,
   },

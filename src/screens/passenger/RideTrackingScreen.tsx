@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     maxHeight: '60%',
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.lg,
-    shadowColor: colors.dark,
+    shadowColor: colors.darkColor,
     shadowOffset: {
       width: 0,
       height: -2,
@@ -192,14 +192,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
   },
   emptyTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading1,
   },
   emptyMessage: {
-    fontSize: 16,
     color: colors.gray,
     textAlign: 'center',
     ...typography.body,
@@ -216,9 +213,7 @@ const styles = StyleSheet.create({
     marginRight: spacing.sm,
   },
   statusText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     ...typography.body,
   },
   driverInfo: {
@@ -228,9 +223,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading2,
   },
@@ -240,14 +233,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   detailLabel: {
-    fontSize: 14,
     color: colors.gray,
     ...typography.caption,
   },
   detailValue: {
-    fontSize: 14,
-    color: colors.dark,
-    fontWeight: '500',
+    color: colors.darkColor,
     ...typography.caption,
   },
   actionButtons: {

@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     maxHeight: '60%',
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.lg,
-    shadowColor: colors.dark,
+    shadowColor: colors.darkColor,
     shadowOffset: {
       width: 0,
       height: -2,
@@ -145,9 +145,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading2,
   },

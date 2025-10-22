@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Switch, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button } from '../../components/common/Button';
-import { Card } from '../../components/common/Card';
+import Button from '../../components/common/Button';
+import Card from '../../components/common/Card';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 import { spacing } from '../../styles/spacing';
@@ -188,7 +188,7 @@ const SettingsScreen: React.FC = () => {
             title="Delete Account"
             onPress={handleDeleteAccount}
             variant="outline"
-            style={[styles.settingButton, styles.dangerButton]}
+            style={{ ...styles.settingButton, borderColor: colors.error }}
           />
         </Card>
       </ScrollView>
@@ -211,14 +211,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.heading1,
   },
   subtitle: {
-    fontSize: 16,
     color: colors.gray,
     ...typography.body,
   },
@@ -227,9 +224,7 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.lg,
     ...typography.heading2,
   },
@@ -246,22 +241,16 @@ const styles = StyleSheet.create({
     marginRight: spacing.md,
   },
   settingLabel: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.body,
   },
   settingDescription: {
-    fontSize: 14,
     color: colors.gray,
     ...typography.caption,
   },
   settingButton: {
     marginBottom: spacing.md,
-  },
-  dangerButton: {
-    borderColor: colors.error,
   },
 });
 

@@ -105,9 +105,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   driverName: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.heading2,
   },
@@ -116,8 +114,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rating: {
-    fontSize: 14,
-    color: colors.dark,
+    color: colors.darkColor,
     marginLeft: spacing.sm,
     ...typography.caption,
   },
@@ -137,9 +134,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   vehicleTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.body,
   },
@@ -147,15 +142,12 @@ const styles = StyleSheet.create({
     // Additional styles if needed
   },
   vehicleText: {
-    fontSize: 14,
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.caption,
   },
   plateText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.primary,
+    color: colors.darkColor,
     ...typography.caption,
   },
   actions: {

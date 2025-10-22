@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '500',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.caption,
   },
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
-    color: colors.dark,
+    color: colors.darkColor
     ...typography.body,
   },
   multilineInput: {

@@ -117,14 +117,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   name: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.body,
   },
   estimatedTime: {
-    fontSize: 14,
     color: colors.gray,
     ...typography.caption,
   },
@@ -133,9 +130,7 @@ const styles = StyleSheet.create({
     marginRight: spacing.md,
   },
   price: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     ...typography.heading2,
   },
   selectedText: {

@@ -13,7 +13,7 @@ export const colors = {
   // Neutral colors
   white: '#FFFFFF',
   black: '#000000',
-  dark: '#1C1C1E',
+  darkColor: '#1C1C1E',
   gray: '#8E8E93',
   lightGray: '#F2F2F7',
   mediumGray: '#C7C7CC',

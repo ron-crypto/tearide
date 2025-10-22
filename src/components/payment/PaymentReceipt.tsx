@@ -157,14 +157,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,  
     marginBottom: spacing.sm,
     ...typography.heading1,
   },
   subtitle: {
-    fontSize: 16,
     color: colors.gray,
     ...typography.body,
   },
@@ -181,13 +178,10 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.lightGray,
   },
   receiptTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     ...typography.heading2,
   },
   receiptId: {
-    fontSize: 14,
     color: colors.gray,
     ...typography.caption,
   },
@@ -195,9 +189,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.body,
   },
@@ -207,14 +199,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   detailLabel: {
-    fontSize: 14,
     color: colors.gray,
     ...typography.caption,
   },
   detailValue: {
-    fontSize: 14,
-    color: colors.dark,
-    fontWeight: '500',
+    color: colors.darkColor,
     ...typography.caption,
   },
   paymentInfo: {
@@ -232,14 +221,10 @@ const styles = StyleSheet.create({
     borderTopColor: colors.primary,
   },
   totalLabel: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     ...typography.heading2,
   },
   totalValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
     color: colors.primary,
     ...typography.heading1,
   },

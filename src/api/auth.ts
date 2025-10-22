@@ -22,13 +22,7 @@ export const authAPI = {
     await client.post('/auth/logout');
   },
 
-  // Refresh token
-  refreshToken: async (refreshToken: string): Promise<{ accessToken: string }> => {
-    const response = await client.post('/auth/refresh', {
-      refreshToken,
-    });
-    return response.data;
-  },
+  
 
   // Forgot password
   forgotPassword: async (email: string): Promise<void> => {

@@ -190,14 +190,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.heading1,
   },
   subtitle: {
-    fontSize: 16,
     color: colors.gray,
     ...typography.body,
   },
@@ -219,20 +216,15 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   avatarText: {
-    fontSize: 32,
-    fontWeight: 'bold',
     color: colors.white,
     ...typography.heading1,
   },
   userName: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.heading2,
   },
   userRole: {
-    fontSize: 14,
     color: colors.gray,
     ...typography.caption,
   },
@@ -267,9 +259,7 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading2,
   },
@@ -285,14 +275,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   statValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
     color: colors.primary,
     marginBottom: spacing.sm,
     ...typography.heading2,
   },
   statLabel: {
-    fontSize: 12,
     color: colors.gray,
     textAlign: 'center',
     ...typography.caption,

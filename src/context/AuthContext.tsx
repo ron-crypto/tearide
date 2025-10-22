@@ -172,11 +172,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return;
       }
 
-      const user = await authAPI.getCurrentUser();
+      // Add timeout to prevent hanging if backend is unavailable
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Authentication check timeout')), 5000);
+      });
+
+      const userPromise = authAPI.getCurrentUser();
+      const user = await Promise.race([userPromise, timeoutPromise]);
       dispatch({ type: 'AUTH_SUCCESS', payload: user });
     } catch (error) {
-      await removeItem('auth_token');
-      await removeItem('refresh_token');
+      console.log('Auth check failed:', error);
+      // Only clear tokens if it's an authentication error, not a network error
+      if (error?.response?.status === 401) {
+        await removeItem('auth_token');
+        await removeItem('refresh_token');
+      }
       dispatch({ type: 'AUTH_LOGOUT' });
     }
   };

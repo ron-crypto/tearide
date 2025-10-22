@@ -133,14 +133,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.heading1,
   },
   subtitle: {
-    fontSize: 16,
     color: colors.gray,
     textAlign: 'center',
     ...typography.body,
@@ -153,14 +150,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   amountLabel: {
-    fontSize: 14,
     color: colors.gray,
     marginBottom: spacing.sm,
     ...typography.caption,
   },
   amountValue: {
-    fontSize: 28,
-    fontWeight: 'bold',
     color: colors.primary,
     ...typography.heading1,
   },
@@ -168,7 +162,6 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   disclaimer: {
-    fontSize: 12,
     color: colors.gray,
     textAlign: 'center',
     marginTop: spacing.md,

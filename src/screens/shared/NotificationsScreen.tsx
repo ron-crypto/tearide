@@ -163,9 +163,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginRight: spacing.sm,
     ...typography.heading1,
   },
@@ -199,9 +197,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   notificationTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginRight: spacing.sm,
     ...typography.body,
   },
@@ -209,14 +205,11 @@ const styles = StyleSheet.create({
     // Additional styles if needed
   },
   notificationTime: {
-    fontSize: 12,
     color: colors.gray,
     ...typography.caption,
   },
   notificationMessage: {
-    fontSize: 14,
     color: colors.gray,
-    lineHeight: 20,
     marginBottom: spacing.sm,
     ...typography.caption,
   },
@@ -225,15 +218,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rideLabel: {
-    fontSize: 12,
     color: colors.gray,
     marginRight: spacing.sm,
     ...typography.caption,
   },
   rideValue: {
-    fontSize: 12,
     color: colors.primary,
-    fontWeight: '500',
     ...typography.caption,
   },
   emptyState: {
@@ -243,14 +233,11 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.xl,
   },
   emptyTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading1,
   },
   emptyMessage: {
-    fontSize: 16,
     color: colors.gray,
     textAlign: 'center',
     ...typography.body,
@@ -261,7 +248,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    fontSize: 16,
     color: colors.gray,
     ...typography.body,
   },

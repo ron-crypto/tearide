@@ -1,10 +1,11 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getItem, setItem, removeItem } from '../utils/storage';
+import { refreshToken as refreshTokenAPI } from './refreshToken';
 
 // Create axios instance
 const client: AxiosInstance = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_BASE_URL || 'https://api.tearide.com',
-  timeout: 10000,
+  baseURL: process.env.EXPO_PUBLIC_API_BASE_URL || 'http://localhost:8000',
+  timeout: 5000, // Reduced timeout to prevent hanging
   headers: {
     'Content-Type': 'application/json',
   },
@@ -42,11 +43,7 @@ client.interceptors.response.use(
       try {
         const refreshToken = await getItem('refresh_token');
         if (refreshToken) {
-          const response = await axios.post('/auth/refresh', {
-            refreshToken,
-          });
-
-          const { accessToken } = response.data;
+          const { accessToken } = await refreshTokenAPI(refreshToken);
           await setItem('auth_token', accessToken);
 
           // Retry original request

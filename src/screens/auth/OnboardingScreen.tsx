@@ -113,18 +113,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     textAlign: 'center',
     marginBottom: spacing.md,
     ...typography.heading1,
   },
   description: {
-    fontSize: 16,
     color: colors.gray,
     textAlign: 'center',
-    lineHeight: 24,
     ...typography.body,
   },
   pagination: {

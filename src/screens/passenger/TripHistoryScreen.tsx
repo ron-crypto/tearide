@@ -89,14 +89,11 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.md,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.heading1,
   },
   subtitle: {
-    fontSize: 16,
     color: colors.gray,
     ...typography.body,
   },
@@ -114,14 +111,11 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.xl,
   },
   emptyTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading1,
   },
   emptyMessage: {
-    fontSize: 16,
     color: colors.gray,
     textAlign: 'center',
     ...typography.body,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useAuth } from '../hooks/useAuth';
 import AuthNavigator from './AuthNavigator';
@@ -11,8 +12,12 @@ const AppNavigator: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
-    // You can return a loading screen here
-    return null;
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#007AFF" />
+        <Text style={styles.loadingText}>Loading TeaRide...</Text>
+      </View>
+    );
   }
 
   return (
@@ -25,6 +30,21 @@ const AppNavigator: React.FC = () => {
     </Stack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: '#666666',
+    fontWeight: '500',
+  },
+});
 
 export default AppNavigator;
 

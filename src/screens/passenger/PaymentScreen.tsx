@@ -157,14 +157,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.heading1,
   },
   subtitle: {
-    fontSize: 16,
     color: colors.gray,
     ...typography.body,
   },
@@ -175,9 +172,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading2,
   },
@@ -187,14 +182,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   summaryLabel: {
-    fontSize: 14,
     color: colors.gray,
     ...typography.caption,
   },
   summaryValue: {
-    fontSize: 14,
-    color: colors.dark,
-    fontWeight: '500',
+    color: colors.darkColor,
     ...typography.caption,
   },
   totalRow: {
@@ -204,14 +196,10 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
   },
   totalLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     ...typography.body,
   },
   totalValue: {
-    fontSize: 18,
-    fontWeight: 'bold',
     color: colors.primary,
     ...typography.heading2,
   },
@@ -231,14 +219,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
   },
   emptyTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading1,
   },
   emptyMessage: {
-    fontSize: 16,
     color: colors.gray,
     textAlign: 'center',
     ...typography.body,

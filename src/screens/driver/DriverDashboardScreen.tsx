@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     maxHeight: '60%',
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.lg,
-    shadowColor: colors.dark,
+    shadowColor: colors.darkColor,
     shadowOffset: {
       width: 0,
       height: -2,
@@ -181,7 +181,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   statusLabel: {
-    fontSize: 14,
     color: colors.gray,
     marginBottom: spacing.sm,
     ...typography.caption,
@@ -200,9 +199,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.lg,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading2,
   },
@@ -217,14 +214,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   rideLabel: {
-    fontSize: 14,
     color: colors.gray,
     ...typography.caption,
   },
   rideValue: {
-    fontSize: 14,
-    color: colors.dark,
-    fontWeight: '500',
+    color: colors.darkColor,
     ...typography.caption,
   },
   quickActions: {
@@ -252,14 +246,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   statValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
     color: colors.primary,
     marginBottom: spacing.sm,
     ...typography.heading1,
   },
   statLabel: {
-    fontSize: 12,
     color: colors.gray,
     textAlign: 'center',
     ...typography.caption,

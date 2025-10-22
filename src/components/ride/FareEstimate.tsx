@@ -86,9 +86,7 @@ const styles = StyleSheet.create({
     // Additional container styles if needed
   },
   title: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.lg,
     ...typography.heading2,
   },
@@ -107,8 +105,7 @@ const styles = StyleSheet.create({
     marginRight: spacing.sm,
   },
   locationText: {
-    fontSize: 14,
-    color: colors.dark,
+    color: colors.darkColor,
     flex: 1,
     ...typography.caption,
   },
@@ -121,14 +118,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   detailLabel: {
-    fontSize: 14,
     color: colors.gray,
     ...typography.caption,
   },
   detailValue: {
-    fontSize: 14,
-    color: colors.dark,
-    fontWeight: '500',
+    color: colors.darkColor,
     ...typography.caption,
   },
   fareRow: {
@@ -140,19 +134,14 @@ const styles = StyleSheet.create({
     borderTopColor: colors.lightGray,
   },
   fareLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     ...typography.body,
   },
   fareValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
     color: colors.primary,
     ...typography.heading2,
   },
   disclaimer: {
-    fontSize: 12,
     color: colors.gray,
     textAlign: 'center',
     marginTop: spacing.md,

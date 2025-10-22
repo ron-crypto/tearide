@@ -191,14 +191,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.xl,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.heading1,
   },
   subtitle: {
-    fontSize: 16,
     color: colors.gray,
     ...typography.body,
   },
@@ -223,14 +220,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   summaryLabel: {
-    fontSize: 14,
     color: colors.gray,
     marginBottom: spacing.sm,
     ...typography.caption,
   },
   summaryValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
     color: colors.primary,
     ...typography.heading1,
   },
@@ -238,9 +232,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading2,
   },
@@ -259,8 +251,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   earningDate: {
-    fontSize: 14,
-    color: colors.dark,
+    color: colors.darkColor,
     marginRight: spacing.sm,
     ...typography.caption,
   },
@@ -268,8 +259,6 @@ const styles = StyleSheet.create({
     // Additional styles if needed
   },
   earningAmount: {
-    fontSize: 18,
-    fontWeight: 'bold',
     color: colors.primary,
     ...typography.heading2,
   },
@@ -282,14 +271,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   detailLabel: {
-    fontSize: 12,
     color: colors.gray,
     ...typography.caption,
   },
   detailValue: {
-    fontSize: 12,
-    color: colors.dark,
-    fontWeight: '500',
+    color: colors.darkColor,
     ...typography.caption,
   },
   emptyState: {
@@ -299,14 +285,11 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.xl,
   },
   emptyTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.dark,
+    color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading1,
   },
   emptyMessage: {
-    fontSize: 16,
     color: colors.gray,
     textAlign: 'center',
     ...typography.body,

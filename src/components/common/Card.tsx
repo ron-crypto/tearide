@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
   },
   shadow: {
-    shadowColor: colors.dark,
+    shadowColor: colors.darkColor,
     shadowOffset: {
       width: 0,
       height: 2,

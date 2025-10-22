@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Card } from '../common/Card';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 import { spacing } from '../../styles/spacing';
@@ -97,9 +96,7 @@ const styles = StyleSheet.create({
   },
   name: {
     flex: 1,
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.dark,
+    color: colors.darkColor,
     ...typography.body,
   },
   selectedText: {
