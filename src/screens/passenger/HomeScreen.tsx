@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CustomMapView } from '../../components/maps/CustomMapView';
-import { LocationPicker } from '../../components/maps/LocationPicker';
-import { RideOptionCard } from '../../components/ride/RideOptionCard';
-import { FareEstimate } from '../../components/ride/FareEstimate';
-import { Button } from '../../components/common/Button';
+import CustomMapView from '../../components/maps/CustomMapView';
+import LocationPicker from '../../components/maps/LocationPicker';
+import RideOptionCard from '../../components/ride/RideOptionCard';
+import FareEstimate from '../../components/ride/FareEstimate';
+import Button from '../../components/common/Button';
 import { useLocation } from '../../hooks/useLocation';
 import { useRide } from '../../hooks/useRide';
+import { RideType } from '../../types/ride';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 import { spacing } from '../../styles/spacing';
@@ -17,7 +18,11 @@ const HomeScreen: React.FC = () => {
   const { requestRide, isRequestingRide } = useRide();
   const [pickupLocation, setPickupLocation] = useState<string>('');
   const [destinationLocation, setDestinationLocation] = useState<string>('');
-  const [selectedRideType, setSelectedRideType] = useState<string>('standard');
+  const [selectedRideType, setSelectedRideType] = useState<RideType>('standard');
+
+  const handleRideTypeSelect = (id: string) => {
+    setSelectedRideType(id as RideType);
+  };
 
   const rideOptions = [
     { id: 'standard', name: 'Standard', price: 'KSh 150', estimatedTime: '5 min' },
@@ -45,7 +50,7 @@ const HomeScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.mapContainer}>
         <CustomMapView
-          currentLocation={currentLocation}
+          currentLocation={currentLocation || undefined}
           pickupLocation={pickupLocation}
           destinationLocation={destinationLocation}
         />
@@ -85,7 +90,7 @@ const HomeScreen: React.FC = () => {
                     price={option.price}
                     estimatedTime={option.estimatedTime}
                     selected={selectedRideType === option.id}
-                    onSelect={setSelectedRideType}
+                    onSelect={handleRideTypeSelect}
                     style={styles.rideOption}
                   />
                 ))}

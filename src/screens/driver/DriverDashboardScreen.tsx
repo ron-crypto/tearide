@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CustomMapView } from '../../components/maps/CustomMapView';
-import { Button } from '../../components/common/Button';
-import { Badge } from '../../components/common/Badge';
+import CustomMapView from '../../components/maps/CustomMapView';
+import Button from '../../components/common/Button';
+import Badge from '../../components/common/Badge';
 import { useRide } from '../../hooks/useRide';
 import { useLocation } from '../../hooks/useLocation';
 import { colors } from '../../styles/colors';
@@ -48,7 +48,7 @@ const DriverDashboardScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.mapContainer}>
         <CustomMapView
-          currentLocation={currentLocation}
+          currentLocation={currentLocation || undefined}
           showDriverLocation={true}
         />
       </View>

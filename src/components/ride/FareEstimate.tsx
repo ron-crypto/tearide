@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Card } from '../common/Card';
+import { View, Text, StyleSheet, ViewStyle } from 'react-native';
+import Card from '../common/Card';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 import { spacing } from '../../styles/spacing';
@@ -12,7 +12,7 @@ interface FareEstimateProps {
   estimatedFare?: number;
   distance?: number;
   duration?: number;
-  style?: any;
+  style?: ViewStyle;
 }
 
 const FareEstimate: React.FC<FareEstimateProps> = ({
@@ -38,7 +38,7 @@ const FareEstimate: React.FC<FareEstimateProps> = ({
   };
 
   return (
-    <Card style={[styles.container, style]}>
+    <Card style={StyleSheet.flatten([styles.container, style])}>
       <Text style={styles.title}>Fare Estimate</Text>
       
       <View style={styles.routeInfo}>

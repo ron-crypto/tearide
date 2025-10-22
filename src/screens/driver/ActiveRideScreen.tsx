@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CustomMapView } from '../../components/maps/CustomMapView';
-import { DriverInfoCard } from '../../components/ride/DriverInfoCard';
-import { Button } from '../../components/common/Button';
+import CustomMapView from '../../components/maps/CustomMapView';
+import DriverInfoCard from '../../components/ride/DriverInfoCard';
+import Button from '../../components/common/Button';
+import Card from '../../components/common/Card';
 import { useRide } from '../../hooks/useRide';
 import { useLocation } from '../../hooks/useLocation';
 import { colors } from '../../styles/colors';
@@ -98,7 +99,7 @@ const ActiveRideScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.mapContainer}>
         <CustomMapView
-          currentLocation={currentLocation}
+          currentLocation={currentLocation || undefined}
           pickupLocation={activeRide.pickup}
           destinationLocation={activeRide.destination}
           route={activeRide.route}
@@ -113,11 +114,11 @@ const ActiveRideScreen: React.FC = () => {
           </View>
 
           {activeRide.passenger && (
-            <DriverInfoCard
-              driver={activeRide.passenger}
-              onContact={handleContactPassenger}
-              style={styles.passengerInfo}
-            />
+            <Card style={styles.passengerInfo}>
+              <Text style={styles.sectionTitle}>Passenger Info</Text>
+              <Text style={styles.passengerName}>{activeRide.passenger.name}</Text>
+              <Text style={styles.passengerPhone}>{activeRide.passenger.phone}</Text>
+            </Card>
           )}
 
           <View style={styles.rideDetails}>
@@ -259,6 +260,15 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     marginBottom: spacing.md,
+  },
+  passengerName: {
+    color: colors.darkColor,
+    ...typography.heading3,
+    marginBottom: spacing.sm,
+  },
+  passengerPhone: {
+    color: colors.gray,
+    ...typography.body,
   },
 });
 

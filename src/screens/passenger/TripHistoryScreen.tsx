@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TripCard } from '../../components/ride/TripCard';
-import { Loading } from '../../components/common/Loading';
+import TripCard from '../../components/ride/TripCard';
+import Loading from '../../components/common/Loading';
 import { useRide } from '../../hooks/useRide';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';

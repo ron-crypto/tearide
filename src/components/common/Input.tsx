@@ -23,6 +23,8 @@ interface InputProps {
   style?: ViewStyle;
   textStyle?: TextStyle;
   disabled?: boolean;
+  maxLength?: number;
+  editable?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -43,6 +45,8 @@ const Input: React.FC<InputProps> = ({
   style,
   textStyle,
   disabled = false,
+  maxLength,
+  editable = true,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -99,7 +103,8 @@ const Input: React.FC<InputProps> = ({
           autoCapitalize={autoCapitalize}
           multiline={multiline}
           numberOfLines={numberOfLines}
-          editable={!disabled}
+          editable={!disabled && editable}
+          maxLength={maxLength}
         />
         
         {rightIcon && (
@@ -127,8 +132,6 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   label: {
-    fontSize: 14,
-    fontWeight: '500',
     color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.caption,
@@ -156,8 +159,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 16,
-    color: colors.darkColor
+    color: colors.darkColor,
     ...typography.body,
   },
   multilineInput: {
@@ -175,7 +177,6 @@ const styles = StyleSheet.create({
     padding: spacing.sm,
   },
   errorText: {
-    fontSize: 12,
     color: colors.error,
     marginTop: spacing.sm,
     ...typography.caption,

@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.sm,
     paddingVertical: 4,
     marginTop: spacing.sm,
-    shadowColor: colors.darkColor
+    shadowColor: colors.darkColor,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -96,14 +96,11 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   driverName: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: colors.darkColor
+    color: colors.darkColor,
     textAlign: 'center',
     ...typography.caption,
   },
   rating: {
-    fontSize: 10,
     color: colors.gray,
     textAlign: 'center',
     ...typography.caption,

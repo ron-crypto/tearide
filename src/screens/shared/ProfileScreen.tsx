@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button } from '../../components/common/Button';
-import { Input } from '../../components/common/Input';
-import { Card } from '../../components/common/Card';
+import Button from '../../components/common/Button';
+import Input from '../../components/common/Input';
+import Card from '../../components/common/Card';
 import { useAuth } from '../../hooks/useAuth';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Card } from '../../components/common/Card';
-import { Badge } from '../../components/common/Badge';
+import Card from '../../components/common/Card';
+import Badge from '../../components/common/Badge';
+import Button from '../../components/common/Button';
 import { useNotifications } from '../../hooks/useNotifications';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
@@ -35,10 +36,10 @@ const NotificationsScreen: React.FC = () => {
 
   const renderNotification = ({ item }: { item: any }) => (
     <Card 
-      style={[
+      style={StyleSheet.flatten([
         styles.notificationCard,
         !item.read && styles.unreadNotification
-      ]}
+      ])}
       onPress={() => handleNotificationPress(item)}
     >
       <View style={styles.notificationHeader}>

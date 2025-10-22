@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Card } from '../common/Card';
-import { Button } from '../common/Button';
+import Card from '../common/Card';
+import Button from '../common/Button';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 import { spacing } from '../../styles/spacing';
@@ -25,7 +25,7 @@ interface DriverInfoCardProps {
     };
   };
   onContact?: () => void;
-  style?: any;
+  style?: ViewStyle;
 }
 
 const DriverInfoCard: React.FC<DriverInfoCardProps> = ({
@@ -42,7 +42,7 @@ const DriverInfoCard: React.FC<DriverInfoCardProps> = ({
   };
 
   return (
-    <Card style={[styles.container, style]}>
+    <Card style={StyleSheet.flatten([styles.container, style])}>
       <View style={styles.header}>
         <View style={styles.driverInfo}>
           <Text style={styles.driverName}>{driver.name}</Text>
@@ -82,7 +82,7 @@ const DriverInfoCard: React.FC<DriverInfoCardProps> = ({
       <View style={styles.actions}>
         <Button
           title="Contact Driver"
-          onPress={onContact}
+          onPress={onContact || (() => {})}
           variant="outline"
           style={styles.contactButton}
         />

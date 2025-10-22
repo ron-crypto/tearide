@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CustomMapView } from '../../components/maps/CustomMapView';
-import { DriverInfoCard } from '../../components/ride/DriverInfoCard';
-import { Button } from '../../components/common/Button';
+import CustomMapView from '../../components/maps/CustomMapView';
+import DriverInfoCard from '../../components/ride/DriverInfoCard';
+import Button from '../../components/common/Button';
 import { useRide } from '../../hooks/useRide';
 import { useLocation } from '../../hooks/useLocation';
 import { colors } from '../../styles/colors';
@@ -92,7 +92,7 @@ const RideTrackingScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.mapContainer}>
         <CustomMapView
-          currentLocation={currentLocation}
+          currentLocation={currentLocation || undefined}
           driverLocation={activeRide.driver?.location}
           route={activeRide.route}
         />
@@ -128,8 +128,8 @@ const RideTrackingScreen: React.FC = () => {
               <Text style={styles.detailValue}>{activeRide.rideType}</Text>
             </View>
             <View style={styles.detailRow}>
-              <Text style={styles.detailLabel}>Estimated Fare:</Text>
-              <Text style={styles.detailValue}>{activeRide.estimatedFare}</Text>
+              <Text style={styles.detailLabel}>Fare:</Text>
+              <Text style={styles.detailValue}>KSh {activeRide.fare}</Text>
             </View>
           </View>
 

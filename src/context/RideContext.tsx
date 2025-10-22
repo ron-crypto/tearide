@@ -6,7 +6,10 @@ interface RideState {
   activeRide: Ride | null;
   rideHistory: Ride[];
   rideRequests: Ride[];
+  tripHistory: Ride[];
+  earnings: any[];
   isLoading: boolean;
+  isRequestingRide: boolean;
   error: string | null;
   driverStatus: 'online' | 'offline';
 }
@@ -18,6 +21,9 @@ interface RideContextType extends RideState {
   completeRide: () => Promise<void>;
   fetchRideHistory: () => Promise<void>;
   fetchRideRequests: () => Promise<void>;
+  fetchTripHistory: () => Promise<void>;
+  fetchEarnings: () => Promise<void>;
+  processPayment: (paymentData: any) => Promise<void>;
   acceptRide: (rideId: string) => Promise<void>;
   rejectRide: (rideId: string) => Promise<void>;
   toggleDriverStatus: () => Promise<void>;
@@ -35,6 +41,9 @@ type RideAction =
   | { type: 'RIDE_CLEAR_ACTIVE' }
   | { type: 'RIDE_SET_HISTORY'; payload: Ride[] }
   | { type: 'RIDE_SET_REQUESTS'; payload: Ride[] }
+  | { type: 'RIDE_SET_TRIP_HISTORY'; payload: Ride[] }
+  | { type: 'RIDE_SET_EARNINGS'; payload: any[] }
+  | { type: 'RIDE_SET_REQUESTING'; payload: boolean }
   | { type: 'RIDE_SET_DRIVER_STATUS'; payload: 'online' | 'offline' };
 
 const rideReducer = (state: RideState, action: RideAction): RideState => {
@@ -91,6 +100,25 @@ const rideReducer = (state: RideState, action: RideAction): RideState => {
         isLoading: false,
         error: null,
       };
+    case 'RIDE_SET_TRIP_HISTORY':
+      return {
+        ...state,
+        tripHistory: action.payload,
+        isLoading: false,
+        error: null,
+      };
+    case 'RIDE_SET_EARNINGS':
+      return {
+        ...state,
+        earnings: action.payload,
+        isLoading: false,
+        error: null,
+      };
+    case 'RIDE_SET_REQUESTING':
+      return {
+        ...state,
+        isRequestingRide: action.payload,
+      };
     case 'RIDE_SET_DRIVER_STATUS':
       return {
         ...state,
@@ -105,7 +133,10 @@ const initialState: RideState = {
   activeRide: null,
   rideHistory: [],
   rideRequests: [],
+  tripHistory: [],
+  earnings: [],
   isLoading: false,
+  isRequestingRide: false,
   error: null,
   driverStatus: 'offline',
 };
@@ -116,10 +147,13 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const requestRide = async (rideData: RideRequest) => {
     try {
       dispatch({ type: 'RIDE_START' });
+      dispatch({ type: 'RIDE_SET_REQUESTING', payload: true });
       const ride = await ridesAPI.requestRide(rideData);
       dispatch({ type: 'RIDE_SET_ACTIVE', payload: ride });
+      dispatch({ type: 'RIDE_SET_REQUESTING', payload: false });
     } catch (error: any) {
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to request ride' });
+      dispatch({ type: 'RIDE_SET_REQUESTING', payload: false });
       throw error;
     }
   };
@@ -226,6 +260,42 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  const fetchTripHistory = async () => {
+    try {
+      dispatch({ type: 'RIDE_START' });
+      const response = await ridesAPI.getRideHistory();
+      dispatch({ type: 'RIDE_SET_TRIP_HISTORY', payload: response.rides });
+    } catch (error: any) {
+      dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to fetch trip history' });
+      throw error;
+    }
+  };
+
+  const fetchEarnings = async () => {
+    try {
+      dispatch({ type: 'RIDE_START' });
+      // This would be implemented based on your backend API
+      // const response = await ridesAPI.getEarnings();
+      // dispatch({ type: 'RIDE_SET_EARNINGS', payload: response.earnings });
+      dispatch({ type: 'RIDE_SET_EARNINGS', payload: [] });
+    } catch (error: any) {
+      dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to fetch earnings' });
+      throw error;
+    }
+  };
+
+  const processPayment = async (paymentData: any) => {
+    try {
+      dispatch({ type: 'RIDE_START' });
+      // This would be implemented based on your backend API
+      // const result = await ridesAPI.processPayment(paymentData);
+      // Handle payment result
+    } catch (error: any) {
+      dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to process payment' });
+      throw error;
+    }
+  };
+
   const clearError = () => {
     dispatch({ type: 'RIDE_CLEAR_ERROR' });
   };
@@ -242,6 +312,9 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     completeRide,
     fetchRideHistory,
     fetchRideRequests,
+    fetchTripHistory,
+    fetchEarnings,
+    processPayment,
     acceptRide,
     rejectRide,
     toggleDriverStatus,

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Card } from '../../components/common/Card';
-import { Badge } from '../../components/common/Badge';
+import Card from '../../components/common/Card';
+import Badge from '../../components/common/Badge';
 import { useRide } from '../../hooks/useRide';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
@@ -14,12 +14,12 @@ const EarningsScreen: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<'today' | 'week' | 'month'>('today');
 
   useEffect(() => {
-    fetchEarnings(selectedPeriod);
-  }, [fetchEarnings, selectedPeriod]);
+    fetchEarnings();
+  }, [fetchEarnings]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    await fetchEarnings(selectedPeriod);
+    await fetchEarnings();
     setRefreshing(false);
   };
 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button } from '../../components/common/Button';
-import { PaymentMethodCard } from '../../components/payment/PaymentMethodCard';
-import { MpesaPrompt } from '../../components/payment/MpesaPrompt';
-import { PaymentReceipt } from '../../components/payment/PaymentReceipt';
+import Button from '../../components/common/Button';
+import PaymentMethodCard from '../../components/payment/PaymentMethodCard';
+import MpesaPrompt from '../../components/payment/MpesaPrompt';
+import PaymentReceipt from '../../components/payment/PaymentReceipt';
 import { useRide } from '../../hooks/useRide';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
@@ -73,7 +73,19 @@ const PaymentScreen: React.FC = () => {
     return (
       <SafeAreaView style={styles.container}>
         <PaymentReceipt
-          ride={activeRide}
+          ride={{
+            id: activeRide.id,
+            pickup: activeRide.pickup,
+            destination: activeRide.destination,
+            fare: activeRide.fare,
+            distance: activeRide.distance,
+            duration: activeRide.duration,
+            driver: {
+              name: activeRide.driver?.name || '',
+              phone: activeRide.driver?.phone || '',
+            },
+            completedAt: activeRide.completedAt || new Date().toISOString(),
+          }}
           paymentMethod={selectedPaymentMethod}
           onRateDriver={handleRateDriver}
         />
