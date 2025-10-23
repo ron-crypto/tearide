@@ -30,8 +30,9 @@ const Badge: React.FC<BadgeProps> = ({
     const sizeStyle = styles[`${size}Badge`];
     const variantStyle = variant === 'outline' ? styles.outlineBadge : styles.filledBadge;
     const backgroundColorStyle = variant === 'filled' ? { backgroundColor } : {};
+    const borderColorStyle = variant === 'outline' ? { borderColor: backgroundColor } : {};
 
-    return [baseStyle, sizeStyle, variantStyle, backgroundColorStyle, style];
+    return [baseStyle, sizeStyle, variantStyle, backgroundColorStyle, borderColorStyle, style];
   };
 
   const getTextStyle = () => {
@@ -90,7 +91,6 @@ const styles = StyleSheet.create({
   },
   outlineBadge: {
     borderWidth: 1,
-    borderColor: backgroundColor,
     backgroundColor: 'transparent',
   },
   // Text styles
@@ -99,16 +99,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   smallText: {
-    fontSize: 10,
     ...typography.caption,
+    fontSize: 10,
   },
   mediumText: {
-    fontSize: 12,
     ...typography.caption,
+    fontSize: 12,
   },
   largeText: {
-    fontSize: 14,
     ...typography.caption,
+    fontSize: 14,
   },
 });
 

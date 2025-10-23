@@ -111,15 +111,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   smallText: {
-    fontSize: 14,
     ...typography.caption,
   },
   mediumText: {
-    fontSize: 16,
     ...typography.body,
   },
   largeText: {
-    fontSize: 18,
     ...typography.heading2,
   },
   primaryText: {

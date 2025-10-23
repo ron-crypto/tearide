@@ -174,25 +174,38 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       // Add timeout to prevent hanging if backend is unavailable
       const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Authentication check timeout')), 5000);
+        setTimeout(() => reject(new Error('Authentication check timeout')), 3000);
       });
 
       const userPromise = authAPI.getCurrentUser();
-      const user = await Promise.race([userPromise, timeoutPromise]);
+      const user = await Promise.race([userPromise, timeoutPromise]) as User;
       dispatch({ type: 'AUTH_SUCCESS', payload: user });
     } catch (error) {
       console.log('Auth check failed:', error);
       // Only clear tokens if it's an authentication error, not a network error
-      if (error?.response?.status === 401) {
-        await removeItem('auth_token');
-        await removeItem('refresh_token');
-      }
+      // if (error?.response?.status === 401) {
+      //   await removeItem('auth_token');
+      //   await removeItem('refresh_token');
+      // }
+
+      await removeItem('auth_token');
+      await removeItem('refresh_token');
       dispatch({ type: 'AUTH_LOGOUT' });
     }
   };
 
   useEffect(() => {
+    // Add a timeout to prevent infinite loading
+    const timeoutId = setTimeout(() => {
+      if (state.isLoading) {
+        console.log('Auth check timeout - proceeding to logout');
+        dispatch({ type: 'AUTH_LOGOUT' });
+      }
+    }, 10000); // 10 second timeout
+
     checkAuthStatus();
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const value: AuthContextType = {

@@ -1,3 +1,36 @@
+export interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  role: 'passenger' | 'driver' | 'admin';
+  isVerified: boolean;
+  profilePicture?: string;
+  dateOfBirth?: string;
+  gender?: 'male' | 'female' | 'other';
+  address?: {
+    street: string;
+    city: string;
+    country: string;
+    postalCode: string;
+  };
+  emergencyContact?: {
+    name: string;
+    phone: string;
+    relationship: string;
+  };
+  preferences: {
+    notifications: boolean;
+    locationTracking: boolean;
+    darkMode: boolean;
+    language: string;
+    currency: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface UserProfile {
   id: string;
   firstName: string;

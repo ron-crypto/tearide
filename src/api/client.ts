@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { getItem, setItem, removeItem } from '../utils/storage';
 import { refreshToken as refreshTokenAPI } from './refreshToken';
 
@@ -13,7 +13,7 @@ const client: AxiosInstance = axios.create({
 
 // Request interceptor
 client.interceptors.request.use(
-  async (config: AxiosRequestConfig) => {
+  async (config: InternalAxiosRequestConfig) => {
     try {
       const token = await getItem('auth_token');
       if (token && config.headers) {

@@ -1,19 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { useAuth } from '../../hooks/useAuth';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 
 const SplashScreen: React.FC = () => {
-  const { checkAuthStatus } = useAuth();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      checkAuthStatus();
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, [checkAuthStatus]);
 
   return (
     <View style={styles.container}>
@@ -41,16 +31,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
     color: colors.primary,
     marginBottom: 8,
-    ...typography.heading1,
+    fontFamily: typography.heading1.fontFamily,
+    fontSize: typography.heading1.fontSize,
+    lineHeight: typography.heading1.lineHeight,
+    fontWeight: typography.heading1.fontWeight,
   },
   subtitle: {
-    fontSize: 16,
     color: colors.gray,
-    ...typography.body,
+    fontFamily: typography.body.fontFamily,
+    fontSize: typography.body.fontSize,
+    lineHeight: typography.body.lineHeight,
+    fontWeight: typography.body.fontWeight,
   },
 });
 

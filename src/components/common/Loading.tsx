@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   message: {
-    fontSize: 16,
     color: colors.gray,
     marginTop: spacing.md,
     ...typography.body,
