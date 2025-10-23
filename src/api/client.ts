@@ -5,7 +5,7 @@ import { API_CONFIG } from '../utils/constants';
 
 // Create axios instance
 const client: AxiosInstance = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_BASE_URL || 'http://192.168.100.86:8000',
+  baseURL: process.env.EXPO_PUBLIC_API_BASE_URL || 'http://192.168.100.86:8000/api/v1',
   timeout: API_CONFIG.TIMEOUT,
   headers: {
     'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect, useCallback, ReactNode } from 'react';
 import { ridesAPI } from '../api/rides';
+import { driversAPI } from '../api/drivers';
 import { Ride, RideRequest, RideStatus } from '../types/ride';
 
 interface RideState {
@@ -213,9 +214,8 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const fetchRideRequests = useCallback(async () => {
     try {
       dispatch({ type: 'RIDE_START' });
-      // This would be implemented based on your backend API
-      // const response = await ridesAPI.getRideRequests();
-      // dispatch({ type: 'RIDE_SET_REQUESTS', payload: response.rides });
+      const response = await driversAPI.getRideRequests();
+      dispatch({ type: 'RIDE_SET_REQUESTS', payload: response });
     } catch (error: any) {
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to fetch ride requests' });
       throw error;
@@ -225,8 +225,13 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const acceptRide = async (rideId: string) => {
     try {
       dispatch({ type: 'RIDE_START' });
-      // This would be implemented based on your backend API
-      // const ride = await ridesAPI.acceptRide(rideId);
+      await driversAPI.acceptRideRequest(rideId);
+      // Remove from requests and set as active
+      const updatedRequests = state.rideRequests.filter(ride => ride.id !== rideId);
+      dispatch({ type: 'RIDE_SET_REQUESTS', payload: updatedRequests });
+      
+      // You might want to fetch the ride details and set as active
+      // const ride = await ridesAPI.getRideDetails(rideId);
       // dispatch({ type: 'RIDE_SET_ACTIVE', payload: ride });
     } catch (error: any) {
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to accept ride' });
@@ -234,11 +239,10 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const rejectRide = async (rideId: string) => {
+  const rejectRide = async (rideId: string, reason?: string) => {
     try {
       dispatch({ type: 'RIDE_START' });
-      // This would be implemented based on your backend API
-      // await ridesAPI.rejectRide(rideId);
+      await driversAPI.rejectRideRequest(rideId, reason);
       // Remove from requests
       const updatedRequests = state.rideRequests.filter(ride => ride.id !== rideId);
       dispatch({ type: 'RIDE_SET_REQUESTS', payload: updatedRequests });
@@ -251,9 +255,8 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const toggleDriverStatus = useCallback(async () => {
     try {
       const newStatus = state.driverStatus === 'online' ? 'offline' : 'online';
+      await driversAPI.toggleDriverStatus(newStatus);
       dispatch({ type: 'RIDE_SET_DRIVER_STATUS', payload: newStatus });
-      // This would be implemented based on your backend API
-      // await ridesAPI.updateDriverStatus(newStatus);
     } catch (error: any) {
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to update driver status' });
       throw error;
@@ -274,10 +277,8 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const fetchEarnings = useCallback(async () => {
     try {
       dispatch({ type: 'RIDE_START' });
-      // This would be implemented based on your backend API
-      // const response = await ridesAPI.getEarnings();
-      // dispatch({ type: 'RIDE_SET_EARNINGS', payload: response.earnings });
-      dispatch({ type: 'RIDE_SET_EARNINGS', payload: [] });
+      const response = await driversAPI.getDriverEarnings('today');
+      dispatch({ type: 'RIDE_SET_EARNINGS', payload: [response] });
     } catch (error: any) {
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to fetch earnings' });
       throw error;

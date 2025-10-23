@@ -6,23 +6,61 @@ import Button from '../../components/common/Button';
 import Badge from '../../components/common/Badge';
 import { useRide } from '../../hooks/useRide';
 import { useLocation } from '../../hooks/useLocation';
+import { driversAPI } from '../../api/drivers';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 import { spacing } from '../../styles/spacing';
 
 const DriverDashboardScreen: React.FC = () => {
-  const { activeRide, driverStatus, toggleDriverStatus } = useRide();
+  const { activeRide, driverStatus, toggleDriverStatus, fetchRideRequests, rideRequests, fetchEarnings, earnings } = useRide();
   const { currentLocation } = useLocation();
   const [isOnline, setIsOnline] = useState(driverStatus === 'online');
+  const [driverStats, setDriverStats] = useState({
+    todayRides: 0,
+    todayEarnings: 0,
+    onlineTime: 0
+  });
 
   useEffect(() => {
     setIsOnline(driverStatus === 'online');
   }, [driverStatus]);
 
+  useEffect(() => {
+    // Fetch initial data when component mounts
+    fetchDriverData();
+  }, []);
+
+  const fetchDriverData = async () => {
+    try {
+      // Fetch ride requests if online
+      if (isOnline) {
+        await fetchRideRequests();
+      }
+      
+      // Fetch earnings
+      await fetchEarnings();
+      
+      // Fetch driver stats
+      const stats = await driversAPI.getDriverStats();
+      setDriverStats({
+        todayRides: stats.today_rides,
+        todayEarnings: stats.today_earnings,
+        onlineTime: stats.total_online_hours
+      });
+    } catch (error) {
+      console.error('Failed to fetch driver data:', error);
+    }
+  };
+
   const handleToggleStatus = async () => {
     try {
       await toggleDriverStatus();
       setIsOnline(!isOnline);
+      
+      // Fetch data when going online
+      if (!isOnline) {
+        await fetchDriverData();
+      }
     } catch (error) {
       console.error('Failed to toggle driver status:', error);
     }
@@ -122,15 +160,15 @@ const DriverDashboardScreen: React.FC = () => {
             <Text style={styles.sectionTitle}>Today's Stats</Text>
             <View style={styles.statsGrid}>
               <View style={styles.statCard}>
-                <Text style={styles.statValue}>0</Text>
+                <Text style={styles.statValue}>{driverStats.todayRides}</Text>
                 <Text style={styles.statLabel}>Rides</Text>
               </View>
               <View style={styles.statCard}>
-                <Text style={styles.statValue}>KSh 0</Text>
+                <Text style={styles.statValue}>KSh {driverStats.todayEarnings}</Text>
                 <Text style={styles.statLabel}>Earnings</Text>
               </View>
               <View style={styles.statCard}>
-                <Text style={styles.statValue}>0h</Text>
+                <Text style={styles.statValue}>{driverStats.onlineTime}h</Text>
                 <Text style={styles.statLabel}>Online Time</Text>
               </View>
             </View>
