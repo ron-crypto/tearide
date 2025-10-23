@@ -4,9 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import Button from '../../components/common/Button';
 import Input from '../../components/common/Input';
 import { useAuth } from '../../hooks/useAuth';
+import { AuthStackParamList } from '../../types/navigation';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 import { spacing } from '../../styles/spacing';
@@ -18,8 +21,11 @@ const loginSchema = yup.object({
 
 type LoginFormData = yup.InferType<typeof loginSchema>;
 
+type LoginScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Login'>;
+
 const LoginScreen: React.FC = () => {
   const { login, isLoading } = useAuth();
+  const navigation = useNavigation<LoginScreenNavigationProp>();
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -39,11 +45,11 @@ const LoginScreen: React.FC = () => {
   };
 
   const handleForgotPassword = () => {
-    // Navigate to forgot password screen
+    navigation.navigate('ForgotPassword');
   };
 
   const handleRegister = () => {
-    // Navigate to register screen
+    navigation.navigate('Register');
   };
 
   return (

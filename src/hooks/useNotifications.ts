@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
-import * as Notifications from 'expo-notifications';
 import { usersAPI } from '../api/users';
+import { 
+  isPushNotificationSupported, 
+  addNotificationListener,
+  configureNotificationBehavior 
+} from '../utils/notificationUtils';
 
 interface Notification {
   id: string;
@@ -90,7 +94,16 @@ export const useNotifications = (): UseNotificationsReturn => {
 
   // Configure notification handling
   useEffect(() => {
-    const subscription = Notifications.addNotificationReceivedListener(notification => {
+    // Configure notification behavior first
+    configureNotificationBehavior();
+
+    // Only add listener if push notifications are supported
+    if (!isPushNotificationSupported()) {
+      console.warn('Push notifications are not supported in Expo Go. Use a development build for full functionality.');
+      return;
+    }
+
+    const subscription = addNotificationListener(notification => {
       // Handle received notification
       const newNotification: Notification = {
         id: notification.request.identifier,
@@ -104,7 +117,11 @@ export const useNotifications = (): UseNotificationsReturn => {
       setNotifications(prev => [newNotification, ...prev]);
     });
 
-    return () => subscription.remove();
+    return () => {
+      if (subscription) {
+        subscription.remove();
+      }
+    };
   }, []);
 
   return {
