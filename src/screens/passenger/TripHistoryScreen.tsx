@@ -36,10 +36,18 @@ const TripHistoryScreen: React.FC = () => {
 
   const renderEmptyState = () => (
     <View style={styles.emptyState}>
-      <Text style={styles.emptyTitle}>No Trip History</Text>
+      <View style={styles.emptyIconContainer}>
+        <Text style={styles.emptyIcon}>🚗</Text>
+      </View>
+      <Text style={styles.emptyTitle}>No Trip History Yet</Text>
       <Text style={styles.emptyMessage}>
-        Your completed trips will appear here.
+        Your completed rides will appear here once you start using TeaRide.
       </Text>
+      <View style={styles.emptyActionContainer}>
+        <Text style={styles.emptyActionText}>
+          Ready to book your first ride? 🎉
+        </Text>
+      </View>
     </View>
   );
 
@@ -87,15 +95,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.lg,
     paddingBottom: spacing.md,
+    alignItems: 'center',
   },
   title: {
     color: colors.darkColor,
     marginBottom: spacing.sm,
     ...typography.heading1,
+    fontWeight: '600',
   },
   subtitle: {
     color: colors.gray,
     ...typography.body,
+    textAlign: 'center',
   },
   listContent: {
     paddingHorizontal: spacing.lg,
@@ -108,17 +119,62 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: spacing.xl,
+    paddingVertical: spacing.xl * 2,
+    paddingHorizontal: spacing.lg,
+  },
+  emptyIconContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: colors.lightGray,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: spacing.lg,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  emptyIcon: {
+    fontSize: 40,
   },
   emptyTitle: {
     color: colors.darkColor,
     marginBottom: spacing.md,
     ...typography.heading1,
+    textAlign: 'center',
+    fontWeight: '600',
   },
   emptyMessage: {
     color: colors.gray,
     textAlign: 'center',
     ...typography.body,
+    lineHeight: 24,
+    marginBottom: spacing.lg,
+  },
+  emptyActionContainer: {
+    backgroundColor: colors.primary,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: 25,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  emptyActionText: {
+    color: colors.white,
+    ...typography.body,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
 
