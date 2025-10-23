@@ -54,7 +54,16 @@ const LoginScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView 
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        bounces={true}
+        alwaysBounceVertical={false}
+        overScrollMode="auto"
+        scrollEventThrottle={16}
+        style={styles.scrollView}
+      >
         <View style={styles.header}>
           <Text style={styles.title}>Welcome Back</Text>
           <Text style={styles.subtitle}>Sign in to your account</Text>
@@ -133,10 +142,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
-  content: {
+  scrollView: {
     flex: 1,
+  },
+  content: {
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.xl,
+    paddingBottom: spacing.xl * 3, // Extra bottom padding for small screens
+    minHeight: '100%', // Ensure content takes full height
+    flexGrow: 1, // Allow content to grow beyond screen height
   },
   header: {
     alignItems: 'center',
@@ -152,7 +166,7 @@ const styles = StyleSheet.create({
     ...typography.body,
   },
   form: {
-    flex: 1,
+    // Remove flex: 1 to allow natural content sizing
   },
   forgotButton: {
     alignSelf: 'flex-end',

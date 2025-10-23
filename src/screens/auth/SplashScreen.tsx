@@ -15,6 +15,8 @@ const SplashScreen: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
 
   useEffect(() => {
+    console.log('SplashScreen: isLoading =', isLoading, 'isAuthenticated =', isAuthenticated);
+    
     // Wait for auth check to complete, then navigate
     if (!isLoading) {
       if (isAuthenticated) {
@@ -23,10 +25,21 @@ const SplashScreen: React.FC = () => {
         console.log('User is authenticated in splash screen');
       } else {
         // User is not authenticated, navigate to login
+        console.log('User not authenticated - navigating to login');
         navigation.replace('Login');
       }
     }
   }, [isLoading, isAuthenticated, navigation]);
+
+  // Fallback timeout to prevent infinite loading
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      console.log('Splash screen timeout - navigating to login');
+      navigation.replace('Login');
+    }, 5000); // 5 second timeout
+
+    return () => clearTimeout(timeoutId);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

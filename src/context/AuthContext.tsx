@@ -168,17 +168,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const token = await getItem('auth_token');
       
       if (!token) {
+        console.log('No auth token found - proceeding to logout');
         dispatch({ type: 'AUTH_LOGOUT' });
         return;
       }
 
+      console.log('Auth token found - checking user status');
+
       // Add timeout to prevent hanging if backend is unavailable
       const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error('Authentication check timeout')), 5000);
+        setTimeout(() => reject(new Error('Authentication check timeout')), 3000);
       });
 
       const userPromise = authAPI.getCurrentUser();
       const user = await Promise.race([userPromise, timeoutPromise]) as User;
+      console.log('User authenticated successfully:', user.email);
       dispatch({ type: 'AUTH_SUCCESS', payload: user });
     } catch (error) {
       console.log('Auth check failed:', error);
@@ -196,7 +200,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         console.log('Auth check timeout - proceeding to logout');
         dispatch({ type: 'AUTH_LOGOUT' });
       }
-    }, 8000); // 8 second timeout (reduced from 10)
+    }, 4000); // 4 second timeout (reduced to be faster than splash timeout)
 
     checkAuthStatus();
 

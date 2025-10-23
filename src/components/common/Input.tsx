@@ -22,6 +22,7 @@ interface InputProps {
   onRightIconPress?: () => void;
   style?: ViewStyle;
   textStyle?: TextStyle;
+  wrapperStyle?: ViewStyle;
   disabled?: boolean;
   maxLength?: number;
   editable?: boolean;
@@ -44,6 +45,7 @@ const Input: React.FC<InputProps> = ({
   onRightIconPress,
   style,
   textStyle,
+  wrapperStyle,
   disabled = false,
   maxLength,
   editable = true,
@@ -77,7 +79,7 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, wrapperStyle]}>
       {label && <Text style={styles.label}>{label}</Text>}
       
       <View style={getContainerStyle()}>

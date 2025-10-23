@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,6 +13,7 @@ import { AuthStackParamList } from '../../types/navigation';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 import { spacing } from '../../styles/spacing';
+import { getResponsivePadding, isSmallScreen } from '../../utils/responsive';
 
 const registerSchema = yup.object({
   firstName: yup.string().required('First name is required'),
@@ -39,6 +40,7 @@ const RegisterScreen: React.FC = () => {
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: yupResolver(registerSchema),
@@ -51,9 +53,23 @@ const RegisterScreen: React.FC = () => {
       confirmPassword: '',
       role: 'passenger',
     },
+    mode: 'onChange',
   });
 
   const selectedRole = watch('role');
+
+  // Reset form when component mounts to ensure clean state
+  useEffect(() => {
+    reset({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      password: '',
+      confirmPassword: '',
+      role: 'passenger',
+    });
+  }, [reset]);
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
@@ -79,8 +95,22 @@ const RegisterScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
+    <SafeAreaView style={styles.container} key="register-screen">
+      <KeyboardAvoidingView 
+        style={styles.keyboardAvoidingView}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+      >
+        <ScrollView 
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          bounces={true}
+          alwaysBounceVertical={false}
+          overScrollMode="auto"
+          scrollEventThrottle={16}
+          style={styles.scrollView}
+        >
         <View style={styles.header}>
           <Text style={styles.title}>Create Account</Text>
           <Text style={styles.subtitle}>Join TeaRide today</Text>
@@ -90,13 +120,13 @@ const RegisterScreen: React.FC = () => {
           <View style={styles.roleSelector}>
             <Button
               title="Passenger"
-              onPress={() => setSelectedRole('passenger')}
+              onPress={() => handleRoleChange('passenger')}
               variant={selectedRole === 'passenger' ? 'primary' : 'outline'}
               style={styles.roleButton}
             />
             <Button
               title="Driver"
-              onPress={() => setSelectedRole('driver')}
+              onPress={() => handleRoleChange('driver')}
               variant={selectedRole === 'driver' ? 'primary' : 'outline'}
               style={styles.roleButton}
             />
@@ -108,13 +138,15 @@ const RegisterScreen: React.FC = () => {
               name="firstName"
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
+                  key="firstName-input"
                   label="First Name"
                   placeholder="First name"
-                  value={value}
+                  value={value || ''}
                   onChangeText={onChange}
                   onBlur={onBlur}
                   error={errors.firstName?.message}
                   style={styles.halfInput}
+                  wrapperStyle={styles.halfInputWrapper}
                 />
               )}
             />
@@ -123,13 +155,15 @@ const RegisterScreen: React.FC = () => {
               name="lastName"
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
+                  key="lastName-input"
                   label="Last Name"
                   placeholder="Last name"
-                  value={value}
+                  value={value || ''}
                   onChangeText={onChange}
                   onBlur={onBlur}
                   error={errors.lastName?.message}
                   style={styles.halfInput}
+                  wrapperStyle={styles.halfInputWrapper}
                 />
               )}
             />
@@ -140,9 +174,10 @@ const RegisterScreen: React.FC = () => {
             name="email"
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
+                key="email-input"
                 label="Email"
                 placeholder="Enter your email"
-                value={value}
+                value={value || ''}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 error={errors.email?.message}
@@ -157,9 +192,10 @@ const RegisterScreen: React.FC = () => {
             name="phone"
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
+                key="phone-input"
                 label="Phone Number"
                 placeholder="Enter your phone number"
-                value={value}
+                value={value || ''}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 error={errors.phone?.message}
@@ -173,9 +209,10 @@ const RegisterScreen: React.FC = () => {
             name="password"
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
+                key="password-input"
                 label="Password"
                 placeholder="Create a password"
-                value={value}
+                value={value || ''}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 error={errors.password?.message}
@@ -191,9 +228,10 @@ const RegisterScreen: React.FC = () => {
             name="confirmPassword"
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
+                key="confirmPassword-input"
                 label="Confirm Password"
                 placeholder="Confirm your password"
-                value={value}
+                value={value || ''}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 error={errors.confirmPassword?.message}
@@ -224,7 +262,8 @@ const RegisterScreen: React.FC = () => {
             style={styles.loginButton}
           />
         </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -234,10 +273,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
-  content: {
+  keyboardAvoidingView: {
     flex: 1,
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xl,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  content: {
+    paddingHorizontal: getResponsivePadding(spacing.lg),
+    paddingTop: getResponsivePadding(spacing.xl),
+    paddingBottom: getResponsivePadding(spacing.xl * 3), // Extra bottom padding for small screens
+    minHeight: '100%', // Ensure content takes full height
+    flexGrow: 1, // Allow content to grow beyond screen height
   },
   header: {
     alignItems: 'center',
@@ -253,7 +300,7 @@ const styles = StyleSheet.create({
     ...typography.body,
   },
   form: {
-    flex: 1,
+    // Remove flex: 1 to allow natural content sizing
   },
   roleSelector: {
     flexDirection: 'row',
@@ -264,11 +311,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   nameRow: {
-    flexDirection: 'row',
+    flexDirection: isSmallScreen() ? 'column' : 'row', // Stack vertically on small screens
     gap: spacing.sm,
+    marginBottom: spacing.md,
+    flexWrap: 'wrap', // Allow wrapping on very small screens
   },
   halfInput: {
     flex: 1,
+    minWidth: 120, // Minimum width to prevent too small inputs
+  },
+  halfInputWrapper: {
+    flex: 1,
+    marginBottom: 0, // Override the default margin from Input component
+    minWidth: 120, // Minimum width for wrapper
   },
   registerButton: {
     marginTop: spacing.lg,

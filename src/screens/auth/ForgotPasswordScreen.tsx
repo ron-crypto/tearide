@@ -1,12 +1,15 @@
 import React from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import Button from '../../components/common/Button';
 import Input from '../../components/common/Input';
 import { useAuth } from '../../hooks/useAuth';
+import { AuthStackParamList } from '../../types/navigation';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 import { spacing } from '../../styles/spacing';
@@ -17,8 +20,11 @@ const forgotPasswordSchema = yup.object({
 
 type ForgotPasswordFormData = yup.InferType<typeof forgotPasswordSchema>;
 
+type ForgotPasswordScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'ForgotPassword'>;
+
 const ForgotPasswordScreen: React.FC = () => {
   const { forgotPassword, isLoading } = useAuth();
+  const navigation = useNavigation<ForgotPasswordScreenNavigationProp>();
 
   const {
     control,
@@ -41,12 +47,21 @@ const ForgotPasswordScreen: React.FC = () => {
   };
 
   const handleBackToLogin = () => {
-    // Navigate back to login screen
+    navigation.navigate('Login');
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
+      <ScrollView 
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        bounces={true}
+        alwaysBounceVertical={false}
+        overScrollMode="auto"
+        scrollEventThrottle={16}
+        style={styles.scrollView}
+      >
         <View style={styles.header}>
           <Text style={styles.title}>Forgot Password?</Text>
           <Text style={styles.subtitle}>
@@ -86,7 +101,7 @@ const ForgotPasswordScreen: React.FC = () => {
             style={styles.backButton}
           />
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -96,11 +111,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
   },
+  scrollView: {
+    flex: 1,
+  },
   content: {
     flex: 1,
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.xl,
+    paddingBottom: spacing.xl * 2,
     justifyContent: 'center',
+    minHeight: '100%', // Ensure content takes full height
+    flexGrow: 1, // Allow content to grow beyond screen height
   },
   header: {
     alignItems: 'center',
