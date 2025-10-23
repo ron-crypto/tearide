@@ -39,41 +39,64 @@ const RideRequestsScreen: React.FC = () => {
     }
   };
 
-  const renderRideRequest = ({ item }: { item: any }) => (
+  const renderRideRequest = ({ item }: { item: any }) => {
+    console.log('Rendering ride request item:', item);
+    console.log('Item ID:', item.id, 'Type:', typeof item.id);
+    return (
     <Card style={styles.rideCard}>
       <View style={styles.rideHeader}>
         <View style={styles.rideInfo}>
-          <Text style={styles.rideId}>Ride #{item.id.slice(-6)}</Text>
+          <Text style={styles.rideId}>Ride #{item.id && typeof item.id === 'string' ? item.id.slice(-6) : 'N/A'}</Text>
           <Badge
-            text={item.rideType}
-            color={colors.primary}
+            text={item.ride_type || 'Standard'}
+            color={colors.white}
+            backgroundColor={colors.primary}
             style={styles.rideTypeBadge}
           />
         </View>
-        <Text style={styles.rideTime}>{item.requestedAt}</Text>
+        <Text style={styles.rideTime}>
+          {item.requested_at ? new Date(item.requested_at).toLocaleTimeString() : 'N/A'}
+        </Text>
       </View>
 
       <View style={styles.rideDetails}>
         <View style={styles.locationRow}>
           <View style={[styles.locationDot, { backgroundColor: colors.success }]} />
-          <Text style={styles.locationText}>{item.pickup}</Text>
+          <Text style={styles.locationText}>{item.pickup_address || 'Pickup location'}</Text>
         </View>
         <View style={styles.locationRow}>
           <View style={[styles.locationDot, { backgroundColor: colors.primary }]} />
-          <Text style={styles.locationText}>{item.destination}</Text>
+          <Text style={styles.locationText}>{item.destination_address || 'Destination'}</Text>
         </View>
+      </View>
+
+      <View style={styles.passengerInfo}>
+        <Text style={styles.passengerLabel}>Passenger:</Text>
+        <Text style={styles.passengerName}>{item.passenger_name || 'Unknown'}</Text>
+        <Text style={styles.passengerPhone}>{item.passenger_phone || 'N/A'}</Text>
       </View>
 
       <View style={styles.rideFooter}>
         <View style={styles.fareInfo}>
           <Text style={styles.fareLabel}>Fare:</Text>
-          <Text style={styles.fareValue}>KSh {item.fare}</Text>
+          <Text style={styles.fareValue}>KSh {item.fare || 0}</Text>
         </View>
         <View style={styles.distanceInfo}>
           <Text style={styles.distanceLabel}>Distance:</Text>
-          <Text style={styles.distanceValue}>{item.distance} km</Text>
+          <Text style={styles.distanceValue}>{item.distance || 0} km</Text>
+        </View>
+        <View style={styles.durationInfo}>
+          <Text style={styles.durationLabel}>Duration:</Text>
+          <Text style={styles.durationValue}>{item.estimated_duration || 0} min</Text>
         </View>
       </View>
+
+      {item.notes && (
+        <View style={styles.notesContainer}>
+          <Text style={styles.notesLabel}>Notes:</Text>
+          <Text style={styles.notesText}>{item.notes}</Text>
+        </View>
+      )}
 
       <View style={styles.actionButtons}>
         <Button
@@ -90,6 +113,7 @@ const RideRequestsScreen: React.FC = () => {
       </View>
     </Card>
   );
+  };
 
   const renderEmptyState = () => (
     <View style={styles.emptyState}>
@@ -120,7 +144,7 @@ const RideRequestsScreen: React.FC = () => {
       <FlatList
         data={rideRequests}
         renderItem={renderRideRequest}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id || Math.random().toString()}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -209,6 +233,54 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: spacing.lg,
+  },
+  passengerInfo: {
+    marginBottom: spacing.md,
+    padding: spacing.sm,
+    backgroundColor: colors.lightGray,
+    borderRadius: 8,
+  },
+  passengerLabel: {
+    color: colors.gray,
+    marginBottom: spacing.xs,
+    ...typography.caption,
+  },
+  passengerName: {
+    color: colors.darkColor,
+    marginBottom: spacing.xs,
+    ...typography.body,
+  },
+  passengerPhone: {
+    color: colors.gray,
+    ...typography.caption,
+  },
+  durationInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  durationLabel: {
+    color: colors.gray,
+    marginRight: spacing.sm,
+    ...typography.caption,
+  },
+  durationValue: {
+    color: colors.darkColor,
+    ...typography.caption,
+  },
+  notesContainer: {
+    marginBottom: spacing.md,
+    padding: spacing.sm,
+    backgroundColor: colors.lightGray,
+    borderRadius: 8,
+  },
+  notesLabel: {
+    color: colors.gray,
+    marginBottom: spacing.xs,
+    ...typography.caption,
+  },
+  notesText: {
+    color: colors.darkColor,
+    ...typography.caption,
   },
   fareInfo: {
     flexDirection: 'row',

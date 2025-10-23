@@ -23,7 +23,7 @@ interface RideContextType extends RideState {
   fetchRideHistory: () => Promise<void>;
   fetchRideRequests: () => Promise<void>;
   fetchTripHistory: () => Promise<void>;
-  fetchEarnings: () => Promise<void>;
+  fetchEarnings: (period?: 'today' | 'week' | 'month' | 'year') => Promise<void>;
   processPayment: (paymentData: any) => Promise<void>;
   acceptRide: (rideId: string) => Promise<void>;
   rejectRide: (rideId: string) => Promise<void>;
@@ -215,8 +215,16 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       dispatch({ type: 'RIDE_START' });
       const response = await driversAPI.getRideRequests();
+      console.log('Ride requests response:', response);
+      console.log('Response type:', typeof response);
+      console.log('Response length:', Array.isArray(response) ? response.length : 'Not an array');
+      if (Array.isArray(response) && response.length > 0) {
+        console.log('First item:', response[0]);
+        console.log('First item ID:', response[0].id, 'Type:', typeof response[0].id);
+      }
       dispatch({ type: 'RIDE_SET_REQUESTS', payload: response });
     } catch (error: any) {
+      console.error('Failed to fetch ride requests:', error);
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to fetch ride requests' });
       throw error;
     }
@@ -257,11 +265,16 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const newStatus = state.driverStatus === 'online' ? 'offline' : 'online';
       await driversAPI.toggleDriverStatus(newStatus);
       dispatch({ type: 'RIDE_SET_DRIVER_STATUS', payload: newStatus });
+      
+      // If going online, fetch ride requests
+      if (newStatus === 'online') {
+        await fetchRideRequests();
+      }
     } catch (error: any) {
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to update driver status' });
       throw error;
     }
-  }, [state.driverStatus]);
+  }, [state.driverStatus, fetchRideRequests]);
 
   const fetchTripHistory = useCallback(async () => {
     try {
@@ -274,12 +287,19 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, []);
 
-  const fetchEarnings = useCallback(async () => {
+  const fetchEarnings = useCallback(async (period: 'today' | 'week' | 'month' | 'year' = 'today') => {
     try {
       dispatch({ type: 'RIDE_START' });
-      const response = await driversAPI.getDriverEarnings('today');
+      const response = await driversAPI.getDriverEarnings(period);
+      console.log('Earnings response:', response);
+      console.log('Earnings type:', typeof response);
+      if (response && typeof response === 'object') {
+        console.log('Earnings object keys:', Object.keys(response));
+        console.log('Earnings rideId:', response.rideId, 'Type:', typeof response.rideId);
+      }
       dispatch({ type: 'RIDE_SET_EARNINGS', payload: [response] });
     } catch (error: any) {
+      console.error('Failed to fetch earnings:', error);
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to fetch earnings' });
       throw error;
     }

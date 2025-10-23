@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import CustomMapView from '../../components/maps/CustomMapView';
 import Button from '../../components/common/Button';
 import Badge from '../../components/common/Badge';
@@ -12,6 +13,7 @@ import { typography } from '../../styles/typography';
 import { spacing } from '../../styles/spacing';
 
 const DriverDashboardScreen: React.FC = () => {
+  const navigation = useNavigation();
   const { activeRide, driverStatus, toggleDriverStatus, fetchRideRequests, rideRequests, fetchEarnings, earnings } = useRide();
   const { currentLocation } = useLocation();
   const [isOnline, setIsOnline] = useState(driverStatus === 'online');
@@ -52,6 +54,17 @@ const DriverDashboardScreen: React.FC = () => {
     }
   };
 
+  // Get today's stats from earnings data
+  const getTodayStats = () => {
+    if (earnings.length > 0 && earnings[0]) {
+      return {
+        rides: earnings[0].total_rides || 0,
+        earnings: earnings[0].total_earnings || 0
+      };
+    }
+    return { rides: 0, earnings: 0 };
+  };
+
   const handleToggleStatus = async () => {
     try {
       await toggleDriverStatus();
@@ -67,11 +80,11 @@ const DriverDashboardScreen: React.FC = () => {
   };
 
   const handleViewRequests = () => {
-    // Navigate to ride requests screen
+    navigation.navigate('Requests' as never);
   };
 
   const handleViewEarnings = () => {
-    // Navigate to earnings screen
+    navigation.navigate('Earnings' as never);
   };
 
   const getStatusColor = () => {
@@ -160,11 +173,11 @@ const DriverDashboardScreen: React.FC = () => {
             <Text style={styles.sectionTitle}>Today's Stats</Text>
             <View style={styles.statsGrid}>
               <View style={styles.statCard}>
-                <Text style={styles.statValue}>{driverStats.todayRides}</Text>
+                <Text style={styles.statValue}>{getTodayStats().rides}</Text>
                 <Text style={styles.statLabel}>Rides</Text>
               </View>
               <View style={styles.statCard}>
-                <Text style={styles.statValue}>KSh {driverStats.todayEarnings}</Text>
+                <Text style={styles.statValue}>KSh {getTodayStats().earnings}</Text>
                 <Text style={styles.statLabel}>Earnings</Text>
               </View>
               <View style={styles.statCard}>

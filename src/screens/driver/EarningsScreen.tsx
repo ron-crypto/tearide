@@ -14,53 +14,36 @@ const EarningsScreen: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState<'today' | 'week' | 'month'>('today');
 
   useEffect(() => {
-    fetchEarnings();
-  }, [fetchEarnings]);
+    fetchEarnings(selectedPeriod);
+  }, [fetchEarnings, selectedPeriod]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    await fetchEarnings();
+    await fetchEarnings(selectedPeriod);
     setRefreshing(false);
   };
 
-  const handlePeriodChange = (period: 'today' | 'week' | 'month') => {
+  const handlePeriodChange = async (period: 'today' | 'week' | 'month') => {
     setSelectedPeriod(period);
+    // Fetch earnings for the selected period
+    try {
+      await fetchEarningsForPeriod(period);
+    } catch (error) {
+      console.error('Failed to fetch earnings for period:', error);
+    }
   };
 
-  const renderEarningItem = ({ item }: { item: any }) => (
-    <Card style={styles.earningCard}>
-      <View style={styles.earningHeader}>
-        <View style={styles.earningInfo}>
-          <Text style={styles.earningDate}>{item.date}</Text>
-          <Badge
-            text={item.status}
-            color={item.status === 'completed' ? colors.success : colors.warning}
-            style={styles.statusBadge}
-          />
-        </View>
-        <Text style={styles.earningAmount}>KSh {item.amount}</Text>
-      </View>
+  const fetchEarningsForPeriod = async (period: 'today' | 'week' | 'month') => {
+    try {
+      setRefreshing(true);
+      await fetchEarnings(period);
+      setRefreshing(false);
+    } catch (error) {
+      console.error('Failed to fetch earnings:', error);
+      setRefreshing(false);
+    }
+  };
 
-      <View style={styles.earningDetails}>
-        <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Ride ID:</Text>
-          <Text style={styles.detailValue}>#{item.rideId.slice(-6)}</Text>
-        </View>
-        <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Distance:</Text>
-          <Text style={styles.detailValue}>{item.distance} km</Text>
-        </View>
-        <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Duration:</Text>
-          <Text style={styles.detailValue}>{item.duration} min</Text>
-        </View>
-        <View style={styles.detailRow}>
-          <Text style={styles.detailLabel}>Commission:</Text>
-          <Text style={styles.detailValue}>KSh {item.commission}</Text>
-        </View>
-      </View>
-    </Card>
-  );
 
   const renderEmptyState = () => (
     <View style={styles.emptyState}>
@@ -72,11 +55,17 @@ const EarningsScreen: React.FC = () => {
   );
 
   const getTotalEarnings = () => {
-    return earnings.reduce((total, earning) => total + earning.amount, 0);
+    if (earnings.length > 0 && earnings[0].total_earnings !== undefined) {
+      return earnings[0].total_earnings;
+    }
+    return 0;
   };
 
   const getTotalRides = () => {
-    return earnings.length;
+    if (earnings.length > 0 && earnings[0].total_rides !== undefined) {
+      return earnings[0].total_rides;
+    }
+    return 0;
   };
 
   return (
@@ -101,19 +90,22 @@ const EarningsScreen: React.FC = () => {
           <View style={styles.periodButtons}>
             <Badge
               text="Today"
-              color={selectedPeriod === 'today' ? colors.primary : colors.lightGray}
+              color={selectedPeriod === 'today' ? colors.white : colors.darkColor}
+              backgroundColor={selectedPeriod === 'today' ? colors.primary : colors.lightGray}
               onPress={() => handlePeriodChange('today')}
               style={styles.periodButton}
             />
             <Badge
               text="This Week"
-              color={selectedPeriod === 'week' ? colors.primary : colors.lightGray}
+              color={selectedPeriod === 'week' ? colors.white : colors.darkColor}
+              backgroundColor={selectedPeriod === 'week' ? colors.primary : colors.lightGray}
               onPress={() => handlePeriodChange('week')}
               style={styles.periodButton}
             />
             <Badge
               text="This Month"
-              color={selectedPeriod === 'month' ? colors.primary : colors.lightGray}
+              color={selectedPeriod === 'month' ? colors.white : colors.darkColor}
+              backgroundColor={selectedPeriod === 'month' ? colors.primary : colors.lightGray}
               onPress={() => handlePeriodChange('month')}
               style={styles.periodButton}
             />
@@ -131,43 +123,38 @@ const EarningsScreen: React.FC = () => {
           </Card>
         </View>
 
-        <View style={styles.earningsList}>
-          <Text style={styles.sectionTitle}>Earnings History</Text>
-          {earnings.length > 0 ? (
-            earnings.map((earning) => (
-              <Card key={earning.id} style={styles.earningCard}>
-                <View style={styles.earningHeader}>
-                  <View style={styles.earningInfo}>
-                    <Text style={styles.earningDate}>{earning.date}</Text>
-                    <Badge
-                      text={earning.status}
-                      color={earning.status === 'completed' ? colors.success : colors.warning}
-                      style={styles.statusBadge}
-                    />
-                  </View>
-                  <Text style={styles.earningAmount}>KSh {earning.amount}</Text>
-                </View>
+        {earnings.length > 0 && earnings[0].average_earnings_per_ride && (
+          <View style={styles.summaryCards}>
+            <Card style={styles.summaryCard}>
+              <Text style={styles.summaryLabel}>Average per Ride</Text>
+              <Text style={styles.summaryValue}>KSh {earnings[0].average_earnings_per_ride?.toFixed(2) || '0.00'}</Text>
+            </Card>
+            <Card style={styles.summaryCard}>
+              <Text style={styles.summaryLabel}>Period</Text>
+              <Text style={styles.summaryValue}>{earnings[0].period || 'N/A'}</Text>
+            </Card>
+          </View>
+        )}
 
-                <View style={styles.earningDetails}>
-                  <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>Ride ID:</Text>
-                    <Text style={styles.detailValue}>#{earning.rideId.slice(-6)}</Text>
-                  </View>
-                  <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>Distance:</Text>
-                    <Text style={styles.detailValue}>{earning.distance} km</Text>
-                  </View>
-                  <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>Duration:</Text>
-                    <Text style={styles.detailValue}>{earning.duration} min</Text>
-                  </View>
-                  <View style={styles.detailRow}>
-                    <Text style={styles.detailLabel}>Commission:</Text>
-                    <Text style={styles.detailValue}>KSh {earning.commission}</Text>
-                  </View>
+        <View style={styles.earningsList}>
+          <Text style={styles.sectionTitle}>Earnings Summary</Text>
+          {earnings.length > 0 ? (
+            <Card style={styles.summaryCard}>
+              <Text style={styles.summaryText}>
+                You earned KSh {getTotalEarnings()} from {getTotalRides()} rides this {earnings[0].period || 'period'}.
+              </Text>
+              {earnings[0].breakdown && (
+                <View style={styles.breakdownContainer}>
+                  <Text style={styles.breakdownTitle}>Breakdown:</Text>
+                  {Object.entries(earnings[0].breakdown).map(([key, value]) => (
+                    <View key={key} style={styles.breakdownRow}>
+                      <Text style={styles.breakdownLabel}>{key}:</Text>
+                      <Text style={styles.breakdownValue}>KSh {String(value)}</Text>
+                    </View>
+                  ))}
                 </View>
-              </Card>
-            ))
+              )}
+            </Card>
           ) : (
             renderEmptyState()
           )}
@@ -293,6 +280,33 @@ const styles = StyleSheet.create({
     color: colors.gray,
     textAlign: 'center',
     ...typography.body,
+  },
+  summaryText: {
+    color: colors.darkColor,
+    textAlign: 'center',
+    marginBottom: spacing.md,
+    ...typography.body,
+  },
+  breakdownContainer: {
+    marginTop: spacing.md,
+  },
+  breakdownTitle: {
+    color: colors.darkColor,
+    marginBottom: spacing.sm,
+    ...typography.heading3,
+  },
+  breakdownRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: spacing.sm,
+  },
+  breakdownLabel: {
+    color: colors.gray,
+    ...typography.caption,
+  },
+  breakdownValue: {
+    color: colors.primary,
+    ...typography.caption,
   },
 });
 
