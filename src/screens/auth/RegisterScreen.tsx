@@ -4,9 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import Button from '../../components/common/Button';
 import Input from '../../components/common/Input';
 import { useAuth } from '../../hooks/useAuth';
+import { AuthStackParamList } from '../../types/navigation';
 import { colors } from '../../styles/colors';
 import { typography } from '../../styles/typography';
 import { spacing } from '../../styles/spacing';
@@ -23,22 +26,34 @@ const registerSchema = yup.object({
 
 type RegisterFormData = yup.InferType<typeof registerSchema>;
 
+type RegisterScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Register'>;
+
 const RegisterScreen: React.FC = () => {
   const { register, isLoading } = useAuth();
+  const navigation = useNavigation<RegisterScreenNavigationProp>();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [selectedRole, setSelectedRole] = useState<'passenger' | 'driver'>('passenger');
 
   const {
     control,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: yupResolver(registerSchema),
     defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      password: '',
+      confirmPassword: '',
       role: 'passenger',
     },
   });
+
+  const selectedRole = watch('role');
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
@@ -56,7 +71,11 @@ const RegisterScreen: React.FC = () => {
   };
 
   const handleLogin = () => {
-    // Navigate to login screen
+    navigation.navigate('Login');
+  };
+
+  const handleRoleChange = (role: 'passenger' | 'driver') => {
+    setValue('role', role);
   };
 
   return (
