@@ -14,7 +14,7 @@ const TripHistoryScreen: React.FC = () => {
 
   useEffect(() => {
     fetchTripHistory();
-  }, [fetchTripHistory]);
+  }, [fetchTripHistory]); // Now safe to include fetchTripHistory since it's wrapped with useCallback
 
   const handleRefresh = async () => {
     setRefreshing(true);

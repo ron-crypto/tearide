@@ -13,8 +13,8 @@ const ProfileScreen: React.FC = () => {
   const { user, updateProfile, logout } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
+    firstName: user?.first_name || '',
+    lastName: user?.last_name || '',
     email: user?.email || '',
     phone: user?.phone || '',
   });
@@ -31,8 +31,8 @@ const ProfileScreen: React.FC = () => {
 
   const handleCancel = () => {
     setFormData({
-      firstName: user?.firstName || '',
-      lastName: user?.lastName || '',
+      firstName: user?.first_name || '',
+      lastName: user?.last_name || '',
       email: user?.email || '',
       phone: user?.phone || '',
     });
@@ -56,7 +56,15 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView 
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        bounces={true}
+        alwaysBounceVertical={false}
+        overScrollMode="auto"
+        scrollEventThrottle={16}
+      >
         <View style={styles.header}>
           <Text style={styles.title}>Profile</Text>
           <Text style={styles.subtitle}>Manage your account information</Text>
@@ -66,11 +74,11 @@ const ProfileScreen: React.FC = () => {
           <View style={styles.avatarContainer}>
             <View style={styles.avatar}>
               <Text style={styles.avatarText}>
-                {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
+                {user?.first_name?.charAt(0)}{user?.last_name?.charAt(0)}
               </Text>
             </View>
             <Text style={styles.userName}>
-              {user?.firstName} {user?.lastName}
+              {user?.first_name} {user?.last_name}
             </Text>
             <Text style={styles.userRole}>
               {user?.role === 'driver' ? 'Driver' : 'Passenger'}
@@ -85,6 +93,7 @@ const ProfileScreen: React.FC = () => {
                 onChangeText={(value) => handleChangeText('firstName', value)}
                 editable={isEditing}
                 style={styles.halfInput}
+                wrapperStyle={styles.halfInputWrapper}
               />
               <Input
                 label="Last Name"
@@ -92,6 +101,7 @@ const ProfileScreen: React.FC = () => {
                 onChangeText={(value) => handleChangeText('lastName', value)}
                 editable={isEditing}
                 style={styles.halfInput}
+                wrapperStyle={styles.halfInputWrapper}
               />
             </View>
 
@@ -181,9 +191,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   content: {
-    flex: 1,
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.lg,
+    paddingBottom: spacing.xl * 2, // Extra bottom padding to prevent cutoff
+    minHeight: '100%',
+    flexGrow: 1,
   },
   header: {
     alignItems: 'center',
@@ -234,9 +246,14 @@ const styles = StyleSheet.create({
   nameRow: {
     flexDirection: 'row',
     gap: spacing.sm,
+    marginBottom: spacing.md, // Add margin to match other inputs
   },
   halfInput: {
     flex: 1,
+  },
+  halfInputWrapper: {
+    flex: 1,
+    marginBottom: 0, // Override default margin from Input component
   },
   actionButtons: {
     // Additional styles if needed

@@ -73,9 +73,10 @@ const RegisterScreen: React.FC = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
+      // Transform camelCase to snake_case for backend
       await register({
-        firstName: data.firstName,
-        lastName: data.lastName,
+        first_name: data.firstName,
+        last_name: data.lastName,
         email: data.email,
         phone: data.phone,
         password: data.password,
@@ -145,8 +146,8 @@ const RegisterScreen: React.FC = () => {
                   onChangeText={onChange}
                   onBlur={onBlur}
                   error={errors.firstName?.message}
-                  style={styles.halfInput}
-                  wrapperStyle={styles.halfInputWrapper}
+                  style={styles.nameField}
+                  wrapperStyle={styles.nameFieldWrapper}
                 />
               )}
             />
@@ -162,8 +163,8 @@ const RegisterScreen: React.FC = () => {
                   onChangeText={onChange}
                   onBlur={onBlur}
                   error={errors.lastName?.message}
-                  style={styles.halfInput}
-                  wrapperStyle={styles.halfInputWrapper}
+                  style={styles.nameField}
+                  wrapperStyle={styles.nameFieldWrapper}
                 />
               )}
             />
@@ -311,19 +312,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   nameRow: {
-    flexDirection: isSmallScreen() ? 'column' : 'row', // Stack vertically on small screens
-    gap: spacing.sm,
-    marginBottom: spacing.md,
-    flexWrap: 'wrap', // Allow wrapping on very small screens
+    flexDirection: 'row', // Always side by side like the role buttons
+    gap: spacing.sm, // Same gap as role buttons
+    marginBottom: spacing.lg, // Same margin as role selector
   },
-  halfInput: {
-    flex: 1,
-    minWidth: 120, // Minimum width to prevent too small inputs
+  nameField: {
+    flex: 1, // Same as roleButton
   },
-  halfInputWrapper: {
-    flex: 1,
+  nameFieldWrapper: {
+    flex: 1, // Same as roleButton
     marginBottom: 0, // Override the default margin from Input component
-    minWidth: 120, // Minimum width for wrapper
   },
   registerButton: {
     marginTop: spacing.lg,

@@ -93,8 +93,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       dispatch({ type: 'AUTH_START' });
       const response = await authAPI.login(email, password);
       
-      await setItem('auth_token', response.accessToken);
-      await setItem('refresh_token', response.refreshToken);
+      await setItem('auth_token', response.access_token);
+      await setItem('refresh_token', response.refresh_token);
       
       dispatch({ type: 'AUTH_SUCCESS', payload: response.user });
     } catch (error: any) {
@@ -108,8 +108,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       dispatch({ type: 'AUTH_START' });
       const response = await authAPI.register(userData);
       
-      await setItem('auth_token', response.accessToken);
-      await setItem('refresh_token', response.refreshToken);
+      await setItem('auth_token', response.access_token);
+      await setItem('refresh_token', response.refresh_token);
       
       dispatch({ type: 'AUTH_SUCCESS', payload: response.user });
     } catch (error: any) {

@@ -1,16 +1,17 @@
 export interface User {
   id: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
   phone: string;
   role: 'passenger' | 'driver' | 'admin';
-  isVerified: boolean;
-  profilePicture?: string;
+  is_verified: boolean;
+  profile_picture?: string;
   rating?: number;
-  totalRides?: number;
-  joinedAt: string;
-  lastActiveAt: string;
+  total_rides?: number;
+  created_at: string;
+  updated_at?: string;
+  last_active_at: string;
 }
 
 export interface LoginCredentials {
@@ -19,8 +20,8 @@ export interface LoginCredentials {
 }
 
 export interface RegisterData {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
   phone: string;
   password: string;
@@ -29,9 +30,9 @@ export interface RegisterData {
 
 export interface AuthResponse {
   user: User;
-  accessToken: string;
-  refreshToken: string;
-  expiresIn: number;
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
 }
 
 export interface ForgotPasswordRequest {

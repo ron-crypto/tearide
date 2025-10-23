@@ -1,6 +1,6 @@
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: process.env.EXPO_PUBLIC_API_BASE_URL || 'https://api.tearide.com',
+  BASE_URL: process.env.EXPO_PUBLIC_API_BASE_URL || 'http://192.168.100.86:8000',
   TIMEOUT: 10000,
   RETRY_ATTEMPTS: 3,
   RETRY_DELAY: 1000,

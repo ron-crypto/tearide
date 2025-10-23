@@ -1,13 +1,15 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { getItem, setItem, removeItem } from '../utils/storage';
 import { refreshToken as refreshTokenAPI } from './refreshToken';
+import { API_CONFIG } from '../utils/constants';
 
 // Create axios instance
 const client: AxiosInstance = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_BASE_URL || 'http://localhost:8000',
-  timeout: 5000, // Reduced timeout to prevent hanging
+  baseURL: process.env.EXPO_PUBLIC_API_BASE_URL || 'http://192.168.100.86:8000',
+  timeout: API_CONFIG.TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
   },
 });
 
@@ -19,12 +21,16 @@ client.interceptors.request.use(
       if (token && config.headers) {
         config.headers.Authorization = `Bearer ${token}`;
       }
+      
+      // Log request for debugging
+      console.log(`API Request: ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
     } catch (error) {
       console.error('Error getting auth token:', error);
     }
     return config;
   },
   (error) => {
+    console.error('Request interceptor error:', error);
     return Promise.reject(error);
   }
 );
@@ -32,10 +38,16 @@ client.interceptors.request.use(
 // Response interceptor
 client.interceptors.response.use(
   (response: AxiosResponse) => {
+    // Log successful response for debugging
+    console.log(`API Response: ${response.status} ${response.config.method?.toUpperCase()} ${response.config.url}`);
     return response;
   },
   async (error) => {
     const originalRequest = error.config;
+
+    // Log error for debugging
+    console.error(`API Error: ${error.response?.status || 'Network Error'} ${error.config?.method?.toUpperCase()} ${error.config?.url}`);
+    console.error('Error details:', error.response?.data || error.message);
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;

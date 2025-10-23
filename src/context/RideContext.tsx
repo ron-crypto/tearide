@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useCallback, ReactNode } from 'react';
 import { ridesAPI } from '../api/rides';
 import { Ride, RideRequest, RideStatus } from '../types/ride';
 
@@ -158,7 +158,7 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const cancelRide = async () => {
+  const cancelRide = useCallback(async () => {
     try {
       if (!state.activeRide) return;
       
@@ -169,7 +169,7 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to cancel ride' });
       throw error;
     }
-  };
+  }, [state.activeRide]);
 
   const updateRideStatus = async (status: RideStatus) => {
     try {
@@ -184,7 +184,7 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const completeRide = async () => {
+  const completeRide = useCallback(async () => {
     try {
       if (!state.activeRide) return;
       
@@ -197,9 +197,9 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to complete ride' });
       throw error;
     }
-  };
+  }, [state.activeRide, state.rideHistory]);
 
-  const fetchRideHistory = async () => {
+  const fetchRideHistory = useCallback(async () => {
     try {
       dispatch({ type: 'RIDE_START' });
       const response = await ridesAPI.getRideHistory();
@@ -208,9 +208,9 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to fetch ride history' });
       throw error;
     }
-  };
+  }, []);
 
-  const fetchRideRequests = async () => {
+  const fetchRideRequests = useCallback(async () => {
     try {
       dispatch({ type: 'RIDE_START' });
       // This would be implemented based on your backend API
@@ -220,7 +220,7 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to fetch ride requests' });
       throw error;
     }
-  };
+  }, []);
 
   const acceptRide = async (rideId: string) => {
     try {
@@ -248,7 +248,7 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const toggleDriverStatus = async () => {
+  const toggleDriverStatus = useCallback(async () => {
     try {
       const newStatus = state.driverStatus === 'online' ? 'offline' : 'online';
       dispatch({ type: 'RIDE_SET_DRIVER_STATUS', payload: newStatus });
@@ -258,9 +258,9 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to update driver status' });
       throw error;
     }
-  };
+  }, [state.driverStatus]);
 
-  const fetchTripHistory = async () => {
+  const fetchTripHistory = useCallback(async () => {
     try {
       dispatch({ type: 'RIDE_START' });
       const response = await ridesAPI.getRideHistory();
@@ -269,9 +269,9 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to fetch trip history' });
       throw error;
     }
-  };
+  }, []);
 
-  const fetchEarnings = async () => {
+  const fetchEarnings = useCallback(async () => {
     try {
       dispatch({ type: 'RIDE_START' });
       // This would be implemented based on your backend API
@@ -282,7 +282,7 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       dispatch({ type: 'RIDE_FAILURE', payload: error.message || 'Failed to fetch earnings' });
       throw error;
     }
-  };
+  }, []);
 
   const processPayment = async (paymentData: any) => {
     try {
@@ -300,9 +300,8 @@ export const RideProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     dispatch({ type: 'RIDE_CLEAR_ERROR' });
   };
 
-  useEffect(() => {
-    fetchRideHistory();
-  }, []);
+  // Removed automatic fetchRideHistory call to prevent infinite requests
+  // Components should call fetchRideHistory manually when needed
 
   const value: RideContextType = {
     ...state,
