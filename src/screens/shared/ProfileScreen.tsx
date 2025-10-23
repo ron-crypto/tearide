@@ -152,6 +152,9 @@ const ProfileScreen: React.FC = () => {
           <Text style={styles.sectionTitle}>Account Statistics</Text>
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
+              <View style={styles.statIconContainer}>
+                <Text style={styles.statIcon}>🚗</Text>
+              </View>
               <Text style={styles.statValue}>
                 {user?.role === 'driver' ? '0' : '0'}
               </Text>
@@ -160,10 +163,16 @@ const ProfileScreen: React.FC = () => {
               </Text>
             </View>
             <View style={styles.statItem}>
+              <View style={styles.statIconContainer}>
+                <Text style={styles.statIcon}>⭐</Text>
+              </View>
               <Text style={styles.statValue}>4.8</Text>
               <Text style={styles.statLabel}>Rating</Text>
             </View>
             <View style={styles.statItem}>
+              <View style={styles.statIconContainer}>
+                <Text style={styles.statIcon}>💰</Text>
+              </View>
               <Text style={styles.statValue}>
                 {user?.role === 'driver' ? 'KSh 0' : 'KSh 0'}
               </Text>
@@ -172,6 +181,37 @@ const ProfileScreen: React.FC = () => {
               </Text>
             </View>
           </View>
+          
+          {/* Additional Stats Row
+          <View style={styles.statsGrid}>
+            <View style={styles.statItem}>
+              <View style={styles.statIconContainer}>
+                <Text style={styles.statIcon}>📅</Text>
+              </View>
+              <Text style={styles.statValue}>
+                {user?.created_at ? new Date(user.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'N/A'}
+              </Text>
+              <Text style={styles.statLabel}>Member Since</Text>
+            </View>
+            <View style={styles.statItem}>
+              <View style={styles.statIconContainer}>
+                <Text style={styles.statIcon}>✅</Text>
+              </View>
+              <Text style={styles.statValue}>
+                {user?.is_verified ? 'Verified' : 'Pending'}
+              </Text>
+              <Text style={styles.statLabel}>Status</Text>
+            </View>
+            <View style={styles.statItem}>
+              <View style={styles.statIconContainer}>
+                <Text style={styles.statIcon}>🎯</Text>
+              </View>
+              <Text style={styles.statValue}>
+                {user?.total_rides || '0'}
+              </Text>
+              <Text style={styles.statLabel}>Total Rides</Text>
+            </View>
+          </View> */}
         </Card>
 
         <Button
@@ -213,6 +253,16 @@ const styles = StyleSheet.create({
   profileCard: {
     marginBottom: spacing.lg,
     padding: spacing.lg,
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
   },
   avatarContainer: {
     alignItems: 'center',
@@ -226,6 +276,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: spacing.md,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 6,
   },
   avatarText: {
     color: colors.white,
@@ -274,32 +332,71 @@ const styles = StyleSheet.create({
   statsCard: {
     marginBottom: spacing.lg,
     padding: spacing.lg,
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
   },
   sectionTitle: {
     color: colors.darkColor,
-    marginBottom: spacing.md,
+    marginBottom: spacing.lg,
+    textAlign: 'center',
     ...typography.heading2,
+    fontWeight: '600',
   },
   statsGrid: {
     flexDirection: 'row',
     gap: spacing.sm,
+    marginBottom: spacing.md,
   },
   statItem: {
     flex: 1,
     alignItems: 'center',
     padding: spacing.md,
     backgroundColor: colors.lightGray,
-    borderRadius: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.lightGray,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  statIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: spacing.sm,
+  },
+  statIcon: {
+    fontSize: 20,
   },
   statValue: {
     color: colors.primary,
-    marginBottom: spacing.sm,
-    ...typography.heading2,
+    marginBottom: spacing.xs,
+    ...typography.heading3,
+    fontWeight: '700',
+    textAlign: 'center',
   },
   statLabel: {
     color: colors.gray,
     textAlign: 'center',
     ...typography.caption,
+    fontSize: 12,
+    fontWeight: '500',
   },
   logoutButton: {
     marginBottom: spacing.xl,
